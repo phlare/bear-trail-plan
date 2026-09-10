@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bear Trail Plan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #efe7d6;
+    --paper-raised: #f7f1e4;
+    --ink: #2c2418;
+    --ink-soft: #5c5140;
+    --line: #d8cbae;
+    --pine: #3f5d44;
+    --pine-soft: #e4ebe1;
+    --rust: #b5502e;
+    --rust-soft: #f4e2d8;
+    --gold: #9c7a24;
+    --gold-soft: #ece1c2;
+    --focus: #1c5fa8;
+    --shadow: 0 1px 0 rgba(44,36,24,0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #211c14;
+      --paper-raised: #2a2419;
+      --ink: #ece3d1;
+      --ink-soft: #b3a68c;
+      --line: #463d2b;
+      --pine: #7fa583;
+      --pine-soft: #263127;
+      --rust: #e08a5f;
+      --rust-soft: #3a2620;
+      --gold: #d3ac52;
+      --gold-soft: #3a3018;
+      --focus: #7fb2e8;
+      --shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #211c14;
+    --paper-raised: #2a2419;
+    --ink: #ece3d1;
+    --ink-soft: #b3a68c;
+    --line: #463d2b;
+    --pine: #7fa583;
+    --pine-soft: #263127;
+    --rust: #e08a5f;
+    --rust-soft: #3a2620;
+    --gold: #d3ac52;
+    --gold-soft: #3a3018;
+    --focus: #7fb2e8;
+    --shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.75rem 1.5rem 5rem;
+  }
+
+  h1, h2, h3 {
+    font-family: "Zilla Slab", ui-serif, Georgia, serif;
+    text-wrap: balance;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  header.masthead {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap-reverse;
+  }
+
+  .qr-box {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  #qr-code {
+    width: 84px;
+    height: 84px;
+    background: #ffffff;
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #qr-code img, #qr-code canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .qr-caption {
+    font-size: 0.64rem;
+    color: var(--ink-soft);
+    text-align: center;
+    max-width: 100px;
+    line-height: 1.25;
+  }
+
+  h1.title {
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.08;
+  }
+
+  .subtitle {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    max-width: 60ch;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .legend-note {
+    margin: 0.6rem 0 0;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+  .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; display: inline-block; }
+  .dot.required { background: var(--pine); }
+  .dot.elective { background: var(--rust); }
+  .dot.home { background: var(--gold); }
+  .dot.placeholder { background: var(--ink-soft); }
+
+  /* Timeline */
+  .timeline {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .month {
+    position: relative;
+    padding-left: 3.25rem;
+  }
+
+  .month::before {
+    content: "";
+    position: absolute;
+    left: 1.05rem;
+    top: 2.2rem;
+    bottom: -2.25rem;
+    width: 2px;
+    background: var(--line);
+  }
+
+  .month:last-child::before { display: none; }
+
+  .month-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2.15rem;
+    height: 2.15rem;
+    border-radius: 50%;
+    background: var(--paper-raised);
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Zilla Slab", serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .month-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.9rem;
+  }
+
+  .month-name {
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .month-tag {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 1.25rem 1.35rem 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .card:last-child { margin-bottom: 0; }
+
+  .month-events {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0.85rem 1rem;
+    background: transparent;
+    border-left: 2px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .month-events li {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .month-events .ev-date {
+    flex: 0 0 auto;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    min-width: 3.4rem;
+  }
+
+  .flag {
+    display: inline-block;
+    margin-left: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--rust);
+    background: var(--rust-soft);
+    padding: 0.03rem 0.4rem;
+    border-radius: 999px;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .adv-name {
+    font-family: "Zilla Slab", serif;
+    font-weight: 600;
+    font-size: 1.12rem;
+  }
+
+  .badge {
+    flex: 0 0 auto;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge.required { background: var(--pine-soft); color: var(--pine); }
+  .badge.elective { background: var(--rust-soft); color: var(--rust); }
+  .badge.placeholder { background: var(--gold-soft); color: var(--gold); }
+
+  .adv-note {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin: 0.15rem 0 0.85rem;
+  }
+
+  .src-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--focus);
+    text-decoration: none;
+    margin-top: 0.15rem;
+  }
+  .src-link:hover, .src-link:focus-visible { text-decoration: underline; }
+  .src-link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+  ul.reqs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  ul.reqs li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.93rem;
+    line-height: 1.42;
+  }
+
+  ul.reqs li input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: 0 0 auto;
+    margin-top: 0.16rem;
+    border: 1.5px solid var(--ink-soft);
+    border-radius: 4px;
+    background: var(--paper);
+    cursor: pointer;
+    position: relative;
+  }
+
+  ul.reqs li input[type="checkbox"]:checked {
+    background: var(--pine);
+    border-color: var(--pine);
+  }
+
+  ul.reqs li input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--paper-raised);
+    border-width: 0 2px 2px 0;
+    transform: rotate(40deg);
+  }
+
+  ul.reqs li input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  ul.reqs li.checked span.req-text {
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    text-decoration-color: var(--line);
+  }
+
+  .req-text { flex: 1 1 auto; }
+
+  .home-tag {
+    display: inline-block;
+    margin-left: 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--gold);
+    background: var(--gold-soft);
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .callout {
+    margin-top: 2.5rem;
+    padding: 1.25rem 1.4rem;
+    background: var(--rust-soft);
+    border: 1px solid var(--rust);
+    border-radius: 10px;
+    font-size: 0.94rem;
+  }
+
+  .callout h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    color: var(--rust);
+  }
+
+  .callout p { margin: 0.3rem 0; color: var(--ink); }
+
+  .rule-note {
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .notif-panel {
+    margin: 2rem 0 1.5rem;
+    background: var(--pine-soft);
+    border: 1px solid var(--pine);
+    border-left: 4px solid var(--pine);
+    border-radius: 10px;
+    padding: 1.1rem 1.3rem 1.2rem;
+  }
+
+  .notif-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pine);
+    margin-bottom: 0.75rem;
+  }
+
+  .notif-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .notif-item {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  .notif-date {
+    flex: 0 0 auto;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--pine);
+    background: var(--paper-raised);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .notif-text {
+    font-size: 0.92rem;
+    color: var(--ink);
+    flex: 1 1 260px;
+  }
+
+  .links-panel {
+    margin: 2rem 0 2.5rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 1.25rem 1.35rem 1.4rem;
+  }
+
+  .links-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.85rem;
+  }
+
+  .links-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem 1.5rem;
+  }
+
+  .links-list li { font-size: 0.92rem; }
+
+  .links-list a {
+    color: var(--focus);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .links-list a:hover, .links-list a:focus-visible { text-decoration: underline; }
+
+  .link-desc {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-top: 0.15rem;
+  }
+
+  .link-placeholder {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-size: 0.85rem;
+    border: 1px dashed var(--line);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+  }
+
+  @media (max-width: 480px) {
+    .links-list { grid-template-columns: 1fr; }
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  footer a { color: inherit; }
+
+  @media (max-width: 480px) {
+    .month { padding-left: 2.6rem; }
+    .month-marker { width: 1.8rem; height: 1.8rem; font-size: 0.72rem; }
+    .month::before { left: 0.87rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="eyebrow">Pack 12 Bear Den &middot; 2026&ndash;2027</div>
+      <div class="qr-box">
+        <div id="qr-code" aria-hidden="true"></div>
+        <span class="qr-caption">Scan to reopen this plan</span>
+      </div>
+    </div>
+    <h1 class="title">The Bear Trail to Blue &amp; Gold</h1>
+    <p class="subtitle">Here's when each Bear adventure happens this year, what's covered at den meetings versus at home, and how it all lines up with the pack calendar. Required adventures run September through December, electives run January through the May campout, and summer is left open for now. March, April, and May dates will be added once they're set in Scoutbook.</p>
+    <div class="legend">
+      <span><i class="dot required"></i>Required adventure*</span>
+      <span><i class="dot elective"></i>Elective adventure</span>
+      <span><i class="dot home"></i>Best done at home, before or after the meeting</span>
+      <span><i class="dot placeholder"></i>Placeholder, pending calendar details</span>
+    </div>
+    <p class="legend-note">*Missing a session doesn't mean missing the adventure. Requirements can be finished at home, on your own schedule, too.</p>
+  </header>
+
+  <section class="notif-panel">
+    <div class="notif-title">Notification Center</div>
+    <ul class="notif-list">
+      <li class="notif-item">
+        <span class="notif-date">Sept 2026</span>
+        <span class="notif-text">Welcome! This is a living document we can use to help organize our year. As schedules change and life happens, we'll update this plan so we can keep on task and get these badges earned.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="links-panel">
+    <div class="links-title">Handy Links</div>
+    <ul class="links-list">
+      <li>
+        <a href="https://www.scouting.org/programs/cub-scouts/adventures/bear/" target="_blank" rel="noopener">Bear Rank Adventures Overview</a>
+        <span class="link-desc">The official requirements behind everything on this page</span>
+      </li>
+      <li>
+        <a href="https://advancements.scouting.org/" target="_blank" rel="noopener">Scoutbook Plus</a>
+        <span class="link-desc">Roster, calendar RSVPs, and recording finished adventures</span>
+      </li>
+      <li>
+        <a href="https://www.signupgenius.com/go/10C0A4EA4A929A4F4CF8-65763962-denmeeting" target="_blank" rel="noopener">Den Meeting Snacks Sign-Up</a>
+        <span class="link-desc">SignUpGenius, grab a slot to bring snacks</span>
+      </li>
+      <li>
+        <a href="https://my.scouting.org/online-registration/48091d23-4a1f-4f4d-b3c8-ad89d1c9486d/applicant-type" target="_blank" rel="noopener">Pack 12 Registration</a>
+        <span class="link-desc">Sign up a new scout or adult volunteer</span>
+      </li>
+    </ul>
+  </section>
+
+  <div class="timeline" id="timeline">
+
+    <section class="month">
+      <div class="month-marker">Sep</div>
+      <div class="month-head">
+        <div class="month-name">September</div>
+        <div class="month-tag">Where the trail begins</div>
+      </div>
+      <ul class="month-events">
+        <li><span class="ev-date">Sept 10</span> Den meeting</li>
+        <li><span class="ev-date">Sept 17</span> Pack Meeting: AOL flag ceremony, uniform exchange, Animal Humane guest, summer-event awards</li>
+        <li><span class="ev-date">Sept 20</span> Zoo Meet-up, ABQ BioPark Zoo, 2&nbsp;pm (the printed flyer listed 4&nbsp;pm; 2&nbsp;pm is correct)</li>
+        <li><span class="ev-date">Sept 24</span><span>Movie Night, 6:30&nbsp;pm (set up at 6:00), showing <em>Cloudy with a Chance of Meatballs</em>. Popcorn and water provided.</span></li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Bear Bobcat</div>
+          <div class="badge required">Required</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/bobcat-bear/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">The den's first adventure of the year: getting to know each other, learning the Scout Oath and Law, and setting a den Code of Conduct together. It fills the whole Sept 10 den meeting.</p>
+        <ul class="reqs" data-adventure="bobcat">
+          <li><input type="checkbox"><span class="req-text">Get to know members of your den.</span></li>
+          <li><input type="checkbox"><span class="req-text">Recite the Scout Oath and Law with your den and den leader.</span></li>
+          <li><input type="checkbox"><span class="req-text">Learn about the Scout Oath. Identify the three points of the Scout Oath.</span></li>
+          <li><input type="checkbox"><span class="req-text">With your den, create a den Code of Conduct.</span></li>
+          <li><input type="checkbox"><span class="req-text">Learn about the denner position and responsibilities.</span></li>
+          <li><input type="checkbox"><span class="req-text">Demonstrate the Cub Scout sign, Cub Scout salute, and Cub Scout handshake. Show how each is used.</span></li>
+          <li><input type="checkbox"><span class="req-text">Share with your den, or family, a time when you demonstrated the Cub Scout motto &ldquo;Do Your Best.&rdquo; Explain why it is important to do your best.</span></li>
+          <li><input type="checkbox"><span class="req-text">At home, with your parent or legal guardian, do the activities in the booklet <em>How to Protect Your Children From Child Abuse: A Parent's Guide</em>.<span class="home-tag">Home</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Oct</div>
+      <div class="month-head">
+        <div class="month-name">October</div>
+        <div class="month-tag">Get moving, then get outside</div>
+      </div>
+      <ul class="month-events">
+        <li><span class="ev-date">Oct 8</span> Den meeting</li>
+        <li><span class="ev-date">Oct 18</span> Tissue Paper Balloon Launch, 9&nbsp;am, Mariposa Park Field</li>
+        <li><span class="ev-date">Oct 23&ndash;25</span> Fall Pack Campout, Ponderosa Campground near Bandelier (the site has changed from the printed flyer's Paliza Group Campground). Nadine's running the program.</li>
+        <li><span class="ev-date">Oct 29</span> Pack Meeting (Trunk or Treat)</li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Bear Strong</div>
+          <div class="badge required">Required</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/bear-strong/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">A full den meeting for the food tasting, active games, and relaxation activity, with room to enjoy each one instead of rushing through.</p>
+        <ul class="reqs" data-adventure="strong">
+          <li><input type="checkbox"><span class="req-text">Sample food from 3 of the following food groups: protein, vegetables, fruits, dairy, and grains.</span></li>
+          <li><input type="checkbox"><span class="req-text">Be active for 30 minutes with your den or at least one other person, including both stretching and moving.</span></li>
+          <li><input type="checkbox"><span class="req-text">Be active for 15 minutes doing personal exercises that boost your heart rate, use your muscles, and work on flexibility.</span></li>
+          <li><input type="checkbox"><span class="req-text">Do a relaxing activity for 10 minutes.</span></li>
+          <li><input type="checkbox"><span class="req-text">Review your Scouting America Annual Health and Medical Record with your parent or legal guardian. Discuss your ability to participate in den and pack activities.<span class="home-tag">Home</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Bear Habitat</div>
+          <div class="badge required">Required</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/bear-habitat/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Built around a one-mile walk practicing Leave No Trace principles. This one happens at the Fall Campout (Oct 23&ndash;25) rather than at a den meeting: the hike counts as complete for anyone who attends, and we'll set aside camp time for the rest of the adventure too (route planning, Leave No Trace, fire safety, wildlife spotting). Can't make the campout? There's a make-up hike in November, see below.</p>
+        <ul class="reqs" data-adventure="habitat">
+          <li><input type="checkbox"><span class="req-text">Prepare for a one-mile walk by gathering the Cub Scout Six Essentials and weather-appropriate clothing and shoes.<span class="home-tag">Home prep</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Know Before You Go: identify the location of your walk on a map and confirm your 1-mile route.</span></li>
+          <li><input type="checkbox"><span class="req-text">Choose the Right Path: learn about the path and surrounding area you will be walking on.</span></li>
+          <li><input type="checkbox"><span class="req-text">Trash Your Trash: make a plan for what you will do with your personal trash or trash you find along the trail.</span></li>
+          <li><input type="checkbox"><span class="req-text">Leave What You Find: take pictures along your walk, or bring a sketchbook to draw five things you want to remember.</span></li>
+          <li><input type="checkbox"><span class="req-text">Be Careful with Fire: determine the fire danger rating along your path.</span></li>
+          <li><input type="checkbox"><span class="req-text">Respect Wildlife: from a safe distance, identify six signs of mammals, birds, insects, or reptiles as you look up, down, and around you.</span></li>
+          <li><input type="checkbox"><span class="req-text">Be Kind to Other Visitors: identify what you need to do to be kind to others on the path.</span></li>
+          <li><input type="checkbox"><span class="req-text">With your den, pack, or family, go on your 1-mile walk while practicing your Leave No Trace Principles for Kids.<span class="home-tag">At the campout</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Nov</div>
+      <div class="month-head">
+        <div class="month-name">November</div>
+        <div class="month-tag">Flags, food, and a fallback hike</div>
+      </div>
+      <ul class="month-events">
+        <li><span class="ev-date">Nov 12</span> Den meeting</li>
+        <li><span class="ev-date">Nov 14&ndash;15</span> Scouting for Food collection. Locations and sign-ups TBA</li>
+        <li><span class="ev-date">Nov 19</span> Pack Meeting</li>
+        <li><span class="ev-date">Nov 21</span> Scouting for Food Donation Drop-off, 9&nbsp;am, Storehouse West</li>
+        <li><span class="ev-date">TBA</span> Make-up hike, backup for Bear Habitat, open to everyone</li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Bear Paws for Action</div>
+          <div class="badge required">Required</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/paws-for-action/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Scouting for Food (Nov 14&ndash;15 collection, Nov 21 drop-off) is the service project, so there's no need to line up anything separate. For the nonprofit-research requirement, Storehouse (the drop-off site) is a built-in option since kids get an in-person look when they help with the drop-off. Families are welcome to research a different nonprofit instead, especially if an older troop sibling needs volunteer hours elsewhere.</p>
+        <ul class="reqs" data-adventure="paws">
+          <li><input type="checkbox"><span class="req-text">Familiarize yourself with the flag of the United States, including its history, how to raise and lower it, how to properly fold and display it, and flag etiquette.</span></li>
+          <li><input type="checkbox"><span class="req-text">Identify three symbols that represent the United States. Pick your favorite and make a model, work of art, or other craft that depicts the symbol.</span></li>
+          <li><input type="checkbox"><span class="req-text">Learn about the mission of any nonprofit. Find out how it funds its activities and how volunteers are used to help.<span class="home-tag">Try Storehouse</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Participate in a service project.<span class="home-tag">Scouting for Food, Nov 14&ndash;21</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Make-up Hike</div>
+          <div class="badge placeholder">Placeholder</div>
+        </div>
+        <p class="adv-note">Date TBA. This is the backup path for Bear Habitat's hike for anyone who couldn't make the Fall Campout, but everyone is welcome: other cub scouts, family, troop members included. It's also a second chance to go over the Six Essentials and Leave No Trace principles.</p>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Dec</div>
+      <div class="month-head">
+        <div class="month-name">December</div>
+        <div class="month-tag">Homework with cookies on the side</div>
+      </div>
+      <ul class="month-events">
+        <li>No den meeting this month, adventures are homework</li>
+        <li><span class="ev-date">Dec 3</span> Leader Meeting</li>
+        <li><span class="ev-date">Dec 10</span> Pack Meeting</li>
+        <li><span class="ev-date">TBA</span> Den get-together, cookie decorating at Mark's house</li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Bear Standing Tall</div>
+          <div class="badge required">Required*</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/standing-tall/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Most of this adventure happens at home with a parent: a video, a worksheet, and a conversation about family digital-device rules. The one piece that benefits from a group is the safety-gear demo, a good fit for the December den get-together (cookie decorating at Mark's house, date TBA).</p>
+        <ul class="reqs" data-adventure="standingtall">
+          <li><input type="checkbox"><span class="req-text">With permission from your parent or legal guardian, watch the Protect Yourself Rules video for the Bear rank.<span class="home-tag">Home</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Complete the Personal Space Bubble worksheet that is part of the Protect Yourself Rules resources.<span class="home-tag">Home</span></span></li>
+          <li><input type="checkbox"><span class="req-text">With your parent or legal guardian, set up a family policy for digital devices.<span class="home-tag">Home</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Identify common personal safety gear for your head, eyes, mouth and nose, hands, and feet. List how each item protects you, and demonstrate proper use of safety gear for an activity.<span class="home-tag">Den get-together</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Bear Fellowship</div>
+          <div class="badge required">Required*</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/fellowship/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Almost entirely family-based, which pairs it naturally with Standing Tall this month. Three requirements are conversations and a craft or food item at home, and the act of kindness can happen any time during December.</p>
+        <ul class="reqs" data-adventure="fellowship">
+          <li><input type="checkbox"><span class="req-text">With your parent or legal guardian, talk about your family's faith traditions. Identify three holidays or celebrations that are part of your family's faith traditions, and make a craft, work of art, or food item tied to your favorite one.<span class="home-tag">Home</span></span></li>
+          <li><input type="checkbox"><span class="req-text">With your family, attend a religious service or other gathering that shows how your family expresses reverence.<span class="home-tag">Home</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Carry out an act of kindness.<span class="home-tag">Home</span></span></li>
+          <li><input type="checkbox"><span class="req-text">With your parent or legal guardian, identify a religion or faith different from your own, and determine two things it has in common with your family's beliefs.<span class="home-tag">Home</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Jan</div>
+      <div class="month-head">
+        <div class="month-name">January</div>
+        <div class="month-tag">Sawdust, speed, and the big race</div>
+      </div>
+      <ul class="month-events">
+        <li><span class="ev-date">Jan 1&ndash;2</span> Fort Night (overnight), 5&nbsp;pm&ndash;9&nbsp;am, Paradise Hills UMC</li>
+        <li><span class="ev-date">Jan 9</span> Pinewood Derby Car Cutting, 12&nbsp;pm</li>
+        <li><span class="ev-date">Jan 14</span> Den meeting</li>
+        <li><span class="ev-date">Jan 29</span> Pinewood Derby Car Check-in, 7&nbsp;pm</li>
+        <li><span class="ev-date">Jan 30</span> Pinewood Derby, 7&nbsp;am</li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Race Time</div>
+          <div class="badge elective">Elective</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/race-time-bear/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Lines up cleanly with the pack's own derby: build starts at the Jan 9 car cutting, the Jan 14 den meeting covers rules and speed design, and Jan 30's Pinewood Derby is race day itself.</p>
+        <ul class="reqs" data-adventure="racetime">
+          <li><input type="checkbox"><span class="req-text">Choose to build either a Pinewood Derby car or a Raingutter Regatta boat.<span class="home-tag">Jan 9 car cutting</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Learn and follow the rules for your chosen race.</span></li>
+          <li><input type="checkbox"><span class="req-text">Design your car or boat with speed in mind, and explain what you did to improve its performance.</span></li>
+          <li><input type="checkbox"><span class="req-text">Build your car or boat.<span class="home-tag">Before Jan 29 check-in</span></span></li>
+          <li><input type="checkbox"><span class="req-text">Participate in the race with your car or boat.<span class="home-tag">Jan 30, 7 am</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Feb</div>
+      <div class="month-head">
+        <div class="month-name">February</div>
+        <div class="month-tag">Wrap it up, dress it up</div>
+      </div>
+      <ul class="month-events">
+        <li><span class="ev-date">Feb 11</span> Den meeting</li>
+        <li><span class="ev-date">Feb 18</span> Pack Meeting</li>
+        <li><span class="ev-date">Feb 27</span> Blue &amp; Gold Banquet, 4&nbsp;pm, James Monroe Middle School Cafeteria</li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Buffer week + Blue &amp; Gold banquet</div>
+          <div class="badge required">Wrap-up</div>
+        </div>
+        <p class="adv-note">All 6 required adventures should be wrapped by now. Use the Feb 11 den meeting to finish anything that slipped (the Fellowship act of kindness is the most likely straggler now that Scouting for Food covers the service project), then celebrate what's done at the Feb 27 banquet. Rank completion (2nd elective) follows in April, and Whittling in May is a bonus 3rd elective.</p>
+        <ul class="reqs" data-adventure="catchup">
+          <li><input type="checkbox"><span class="req-text">All 6 required adventures marked complete in Scoutbook.</span></li>
+          <li><input type="checkbox"><span class="req-text">Race Time (first elective) marked complete in Scoutbook.</span></li>
+          <li><input type="checkbox"><span class="req-text">Progress recognized at the Blue &amp; Gold banquet.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Mar</div>
+      <div class="month-head">
+        <div class="month-name">March</div>
+        <div class="month-tag">3, 2, 1, details pending</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Rocket Launch</div>
+          <div class="badge placeholder">Placeholder</div>
+        </div>
+        <p class="adv-note">On the pack's spring/summer calendar; the exact date will be added once it's set in Scoutbook. There isn't a current Bear adventure built around rockets, so for now this is just a fun pack outing.</p>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">Apr</div>
+      <div class="month-head">
+        <div class="month-name">April</div>
+        <div class="month-tag">Rank complete, one marble at a time</div>
+      </div>
+      <ul class="month-events">
+        <li><span class="ev-date">TBA</span> Carnival, also on the pack's spring/summer list, date in Scoutbook</li>
+      </ul>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Marble Madness</div>
+          <div class="badge elective">Elective</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/marble-madness/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Indoor-friendly and low-prep: just marbles, string or yarn for the bag, and space to build a racetrack and a maze. Mary Heather is spearheading supplies and craft time for this one, from marble bags to the racetrack build, so she's the person to thank (or ask for help). With this done, the den has its 6 required adventures plus 2 electives, and Bear rank is complete.</p>
+        <ul class="reqs" data-adventure="marblemadness">
+          <li><input type="checkbox"><span class="req-text">Make a marble bag.</span></li>
+          <li><input type="checkbox"><span class="req-text">Learn five words that are used when talking about marbles.</span></li>
+          <li><input type="checkbox"><span class="req-text">Play three different marble games.</span></li>
+          <li><input type="checkbox"><span class="req-text">Build a marble racetrack with at least two lanes.</span></li>
+          <li><input type="checkbox"><span class="req-text">Build a marble maze.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">May</div>
+      <div class="month-head">
+        <div class="month-name">May</div>
+        <div class="month-tag">Knives out, tents up</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Spring Campout &amp; Crossover</div>
+          <div class="badge placeholder">Placeholder</div>
+        </div>
+        <p class="adv-note">On the pack's spring/summer calendar, paired with Crossover (the Arrow of Light ceremony). Dates, permission slips, and gear list will be shared once finalized.</p>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Whittling</div>
+          <div class="badge elective">Elective (bonus)</div>
+        </div>
+        <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/whittling/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
+        <p class="adv-note">Runs at the campout, where knife use fits naturally and there's time for focused, well-supervised instruction. Every scout needs their own pocketknife and a Whittling Chip card.</p>
+        <ul class="reqs" data-adventure="whittling">
+          <li><input type="checkbox"><span class="req-text">Learn and demonstrate the pocketknife safety rules.</span></li>
+          <li><input type="checkbox"><span class="req-text">Demonstrate the whittling safety circle.</span></li>
+          <li><input type="checkbox"><span class="req-text">Show you know how to properly care for and maintain a pocketknife.</span></li>
+          <li><input type="checkbox"><span class="req-text">Create two carving projects using a pocketknife.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="month">
+      <div class="month-marker">&infin;</div>
+      <div class="month-head">
+        <div class="month-name">Summer</div>
+        <div class="month-tag">To be continued</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="adv-name">Summer activities</div>
+          <div class="badge placeholder">Placeholder</div>
+        </div>
+        <p class="adv-note">Open for now. If the den stays active over the summer, Summertime Fun (participate in three Cub Scout activities between May and August) is the one Bear elective that specifically needs this window. Otherwise this section will fill in with whatever the pack has planned for summer.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="callout">
+    <h3>What's still being finalized</h3>
+    <p><strong>December get-together:</strong> cookie decorating at Mark's house, date still to come. That's when we'll cover Standing Tall's safety-gear demo. Both December adventures can also be finished entirely at home as a family if the timing doesn't work out.</p>
+    <p><strong>November make-up hike:</strong> date still to come. Open to everyone, and the backup way to finish Bear Habitat for anyone who misses the Fall Campout.</p>
+    <p><strong>March, April, and May dates:</strong> Rocket Launch, Carnival, and Spring Campout &amp; Crossover are all on the pack's calendar; exact dates will be added here once they're set in Scoutbook.</p>
+  </div>
+  <p class="rule-note">A couple of details differ from the printed flyer: the Zoo Meet-up is at 2&nbsp;pm (not 4&nbsp;pm) and the Fall Campout is at Ponderosa Campground near Bandelier (not Paliza). Both have been confirmed with pack leadership.</p>
+
+  <footer>
+    Built from the current Bear rank adventure requirements published by Scouting America. Checkbox progress is stored only in this browser, on this device, so it's just for your own tracking. It won't sync to Scoutbook or to the den leaders.
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function () {
+  try {
+    var qrEl = document.getElementById('qr-code');
+    if (qrEl && typeof QRCode !== 'undefined') {
+      new QRCode(qrEl, {
+        text: window.location.href,
+        width: 76,
+        height: 76,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } else if (qrEl) {
+      qrEl.parentElement.style.display = 'none';
+    }
+  } catch (e) {
+    var box = document.getElementById('qr-code');
+    if (box && box.parentElement) { box.parentElement.style.display = 'none'; }
+  }
+})();
+</script>
+<script>
+(function () {
+  var STORAGE_KEY = 'bear-trail-progress-v1';
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      /* storage unavailable; progress just won't persist */
+    }
+  }
+
+  var state = loadState();
+  var checkboxes = Array.prototype.slice.call(document.querySelectorAll('.reqs input[type="checkbox"]'));
+
+  function keyFor(box, index) {
+    var list = box.closest('.reqs');
+    var adv = list ? list.getAttribute('data-adventure') : 'misc';
+    return adv + ':' + index;
+  }
+
+  checkboxes.forEach(function (box, i) {
+    var list = box.closest('.reqs');
+    var adv = list ? list.getAttribute('data-adventure') : 'misc';
+    var withinList = Array.prototype.indexOf.call(list.querySelectorAll('input[type="checkbox"]'), box);
+    var key = adv + ':' + withinList;
+    box.dataset.key = key;
+
+    if (state[key]) {
+      box.checked = true;
+      box.closest('li').classList.add('checked');
+    }
+
+    box.addEventListener('change', function () {
+      state[key] = box.checked;
+      box.closest('li').classList.toggle('checked', box.checked);
+      saveState(state);
+    });
+  });
+})();
+</script>
+</body>
+</html>
