@@ -253,6 +253,11 @@
     font-size: 0.85rem;
   }
 
+  .month-body {
+    display: block;
+    margin: 0;
+  }
+
   .month-head {
     display: flex;
     align-items: baseline;
@@ -260,17 +265,56 @@
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 0.9rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .month-head::-webkit-details-marker,
+  .month-head::marker {
+    display: none;
+  }
+
+  .month-head:hover .month-name {
+    color: var(--ink-soft);
+  }
+
+  .month-head:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .month-head-text {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
   }
 
   .month-name {
     font-size: 1.35rem;
     font-weight: 600;
+    transition: color 0.15s ease;
   }
 
   .month-tag {
     font-size: 0.75rem;
     color: var(--ink-soft);
     font-style: italic;
+  }
+
+  .caret {
+    flex: 0 0 auto;
+    align-self: center;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    transition: transform 0.15s ease;
+    line-height: 1;
+  }
+
+  .month-body[open] > .month-head .caret {
+    transform: rotate(180deg);
   }
 
   .card {
@@ -348,6 +392,26 @@
   .badge.required { background: var(--pine-soft); color: var(--pine); }
   .badge.elective { background: var(--rust-soft); color: var(--rust); }
   .badge.placeholder { background: var(--gold-soft); color: var(--gold); }
+
+  .badge-group {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    flex: 0 0 auto;
+  }
+
+  .badge.completed {
+    background: var(--pine);
+    color: var(--paper-raised);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .badge.completed::before {
+    content: "\2713";
+    font-size: 0.75rem;
+  }
 
   .adv-note {
     font-size: 0.88rem;
@@ -651,11 +715,16 @@
 
     <section class="month">
       <div class="month-marker">Sep</div>
-      <div class="month-head">
-        <div class="month-name">September</div>
-        <div class="month-tag">Where the trail begins</div>
-      </div>
-      <ul class="month-events">
+      <details class="month-body" data-months="9">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">September</span>
+            <span class="month-tag">Where the trail begins</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
         <li><span class="ev-date">Sept 10</span> Den meeting</li>
         <li><span class="ev-date">Sept 17</span> Pack Meeting: AOL flag ceremony, uniform exchange, Animal Humane guest, summer-event awards</li>
         <li><span class="ev-date">Sept 20</span> Zoo Meet-up, ABQ BioPark Zoo, 2&nbsp;pm (the printed flyer listed 4&nbsp;pm; 2&nbsp;pm is correct)</li>
@@ -664,31 +733,42 @@
       <div class="card">
         <div class="card-head">
           <div class="adv-name">Bear Bobcat</div>
-          <div class="badge required">Required</div>
+          <div class="badge-group">
+            <div class="badge required">Required</div>
+            <div class="badge completed">Completed</div>
+          </div>
         </div>
         <a class="src-link" href="https://www.scouting.org/cub-scout-adventures/bobcat-bear/" target="_blank" rel="noopener">Official adventure page &#8599;</a>
-        <p class="adv-note">The den's first adventure of the year: getting to know each other, learning the Scout Oath and Law, and setting a den Code of Conduct together. It fills the whole Sept 10 den meeting.</p>
+        <p class="adv-note">In September, we completed the Bobcat adventure. Talk to Mark or Mary if you need help getting your kiddo caught up.</p>
         <ul class="reqs" data-adventure="bobcat">
-          <li><input type="checkbox"><span class="req-text">Get to know members of your den.</span></li>
-          <li><input type="checkbox"><span class="req-text">Recite the Scout Oath and Law with your den and den leader.</span></li>
-          <li><input type="checkbox"><span class="req-text">Learn about the Scout Oath. Identify the three points of the Scout Oath.</span></li>
-          <li><input type="checkbox"><span class="req-text">With your den, create a den Code of Conduct.</span></li>
-          <li><input type="checkbox"><span class="req-text">Learn about the denner position and responsibilities.</span></li>
-          <li><input type="checkbox"><span class="req-text">Demonstrate the Cub Scout sign, Cub Scout salute, and Cub Scout handshake. Show how each is used.</span></li>
-          <li><input type="checkbox"><span class="req-text">Share with your den, or family, a time when you demonstrated the Cub Scout motto &ldquo;Do Your Best.&rdquo; Explain why it is important to do your best.</span></li>
-          <li><input type="checkbox"><span class="req-text">At home, with your parent or legal guardian, do the activities in the booklet <em>How to Protect Your Children From Child Abuse: A Parent's Guide</em>.<span class="home-tag">Home</span></span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">Get to know members of your den.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">Recite the Scout Oath and Law with your den and den leader.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">Learn about the Scout Oath. Identify the three points of the Scout Oath.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">With your den, create a den Code of Conduct.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">Learn about the denner position and responsibilities.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">Demonstrate the Cub Scout sign, Cub Scout salute, and Cub Scout handshake. Show how each is used.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">Share with your den, or family, a time when you demonstrated the Cub Scout motto &ldquo;Do Your Best.&rdquo; Explain why it is important to do your best.</span></li>
+          <li class="checked"><input type="checkbox" checked><span class="req-text">At home, with your parent or legal guardian, do the activities in the booklet <em>How to Protect Your Children From Child Abuse: A Parent's Guide</em>.<span class="home-tag">Home</span></span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Oct</div>
-      <div class="month-head">
-        <div class="month-name">October</div>
-        <div class="month-tag">Get moving, then get outside</div>
-      </div>
-      <ul class="month-events">
-        <li><span class="ev-date">Oct 8</span> Den meeting</li>
+      <details class="month-body" data-months="10" open>
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">October</span>
+            <span class="month-tag">Get moving, then get outside</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
+        <li><span class="ev-date">Oct 15</span> Den meeting (moved from Oct 8)</li>
         <li><span class="ev-date">Oct 18</span> Tissue Paper Balloon Launch, 9&nbsp;am, Mariposa Park Field</li>
         <li><span class="ev-date">Oct 23&ndash;25</span> ⛺ Fall Pack Campout, Ponderosa Campground near Bandelier (the site has changed from the printed flyer's Paliza Group Campground). Nadine's running the program.</li>
         <li><span class="ev-date">Oct 29</span> Pack Meeting (Trunk or Treat)</li>
@@ -727,15 +807,23 @@
           <li><input type="checkbox"><span class="req-text">With your den, pack, or family, go on your 1-mile walk while practicing your Leave No Trace Principles for Kids.<span class="home-tag">At the campout</span></span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Nov</div>
-      <div class="month-head">
-        <div class="month-name">November</div>
-        <div class="month-tag">Flags, food, and a fallback hike</div>
-      </div>
-      <ul class="month-events">
+      <details class="month-body" data-months="11">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">November</span>
+            <span class="month-tag">Flags, food, and a fallback hike</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
         <li><span class="ev-date">Nov 12</span> Den meeting</li>
         <li><span class="ev-date">Nov 14&ndash;15</span> Scouting for Food collection. Locations and sign-ups TBA</li>
         <li><span class="ev-date">Nov 19</span> Pack Meeting</li>
@@ -763,15 +851,23 @@
         </div>
         <p class="adv-note">Date TBA. This is the backup path for Bear Habitat's hike for anyone who couldn't make the Fall Campout, but everyone is welcome: other cub scouts, family, troop members included. It's also a second chance to go over the Six Essentials and Leave No Trace principles.</p>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Dec</div>
-      <div class="month-head">
-        <div class="month-name">December</div>
-        <div class="month-tag">Homework with cookies on the side</div>
-      </div>
-      <ul class="month-events">
+      <details class="month-body" data-months="12">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">December</span>
+            <span class="month-tag">Homework with cookies on the side</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
         <li>No den meeting this month, adventures are homework</li>
         <li><span class="ev-date">Dec 3</span> Leader Meeting</li>
         <li><span class="ev-date">Dec 10</span> Pack Meeting</li>
@@ -805,15 +901,23 @@
           <li><input type="checkbox"><span class="req-text">With your parent or legal guardian, identify a religion or faith different from your own, and determine two things it has in common with your family's beliefs.<span class="home-tag">Home</span></span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Jan</div>
-      <div class="month-head">
-        <div class="month-name">January</div>
-        <div class="month-tag">Sawdust, speed, and the big race</div>
-      </div>
-      <ul class="month-events">
+      <details class="month-body" data-months="1">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">January</span>
+            <span class="month-tag">Sawdust, speed, and the big race</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
         <li><span class="ev-date">Jan 1&ndash;2</span> Fort Night (overnight), 5&nbsp;pm&ndash;9&nbsp;am, Paradise Hills UMC</li>
         <li><span class="ev-date">Jan 9</span> Pinewood Derby Car Cutting, 12&nbsp;pm</li>
         <li><span class="ev-date">Jan 14</span> Den meeting</li>
@@ -835,15 +939,23 @@
           <li><input type="checkbox"><span class="req-text">Participate in the race with your car or boat.<span class="home-tag">Jan 30, 7 am</span></span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Feb</div>
-      <div class="month-head">
-        <div class="month-name">February</div>
-        <div class="month-tag">Wrap it up, dress it up</div>
-      </div>
-      <ul class="month-events">
+      <details class="month-body" data-months="2">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">February</span>
+            <span class="month-tag">Wrap it up, dress it up</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
         <li><span class="ev-date">Feb 11</span> Den meeting</li>
         <li><span class="ev-date">Feb 18</span> Pack Meeting</li>
         <li><span class="ev-date">Feb 27</span> Blue &amp; Gold Banquet, 4&nbsp;pm, James Monroe Middle School Cafeteria</li>
@@ -860,30 +972,46 @@
           <li><input type="checkbox"><span class="req-text">Progress recognized at the Blue &amp; Gold banquet.</span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Mar</div>
-      <div class="month-head">
-        <div class="month-name">March</div>
-        <div class="month-tag">3, 2, 1, details pending</div>
-      </div>
-      <div class="card">
+      <details class="month-body" data-months="3">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">March</span>
+            <span class="month-tag">3, 2, 1, details pending</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <div class="card">
         <div class="card-head">
           <div class="adv-name">Rocket Launch</div>
           <div class="badge placeholder">Placeholder</div>
         </div>
         <p class="adv-note">On the pack's spring/summer calendar; the exact date will be added once it's set in Scoutbook. There isn't a current Bear adventure built around rockets, so for now this is just a fun pack outing.</p>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">Apr</div>
-      <div class="month-head">
-        <div class="month-name">April</div>
-        <div class="month-tag">Rank complete, one marble at a time</div>
-      </div>
-      <ul class="month-events">
+      <details class="month-body" data-months="4">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">April</span>
+            <span class="month-tag">Rank complete, one marble at a time</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <ul class="month-events">
         <li><span class="ev-date">TBA</span> Carnival, also on the pack's spring/summer list, date in Scoutbook</li>
       </ul>
       <div class="card">
@@ -901,15 +1029,23 @@
           <li><input type="checkbox"><span class="req-text">Build a marble maze.</span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">May</div>
-      <div class="month-head">
-        <div class="month-name">May</div>
-        <div class="month-tag">Knives out, tents up</div>
-      </div>
-      <div class="card">
+      <details class="month-body" data-months="5">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">May</span>
+            <span class="month-tag">Knives out, tents up</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <div class="card">
         <div class="card-head">
           <div class="adv-name">⛺ Spring Campout &amp; Crossover</div>
           <div class="badge placeholder">Placeholder</div>
@@ -930,21 +1066,32 @@
           <li><input type="checkbox"><span class="req-text">Create two carving projects using a pocketknife.</span></li>
         </ul>
       </div>
+    
+        </div>
+      </details>
     </section>
 
     <section class="month">
       <div class="month-marker">&infin;</div>
-      <div class="month-head">
-        <div class="month-name">Summer</div>
-        <div class="month-tag">To be continued</div>
-      </div>
-      <div class="card">
+      <details class="month-body" data-months="6,7,8">
+        <summary class="month-head">
+          <span class="month-head-text">
+            <span class="month-name">Summer</span>
+            <span class="month-tag">To be continued</span>
+          </span>
+          <span class="caret" aria-hidden="true">&#9662;</span>
+        </summary>
+        <div class="month-content">
+          <div class="card">
         <div class="card-head">
           <div class="adv-name">Summer activities</div>
           <div class="badge placeholder">Placeholder</div>
         </div>
         <p class="adv-note">Open for now. If the den stays active over the summer, Summertime Fun (participate in three Cub Scout activities between May and August) is the one Bear elective that specifically needs this window. Otherwise this section will fill in with whatever the pack has planned for summer.</p>
       </div>
+    
+        </div>
+      </details>
     </section>
 
   </div>
@@ -1034,6 +1181,22 @@
       saveState(state);
     });
   });
+})();
+</script>
+<script>
+(function () {
+  try {
+    var now = new Date();
+    var curMonth = now.getMonth() + 1; // 1-12
+    var sections = Array.prototype.slice.call(document.querySelectorAll('.month-body'));
+    sections.forEach(function (d) {
+      var monthsAttr = d.getAttribute('data-months') || '';
+      var months = monthsAttr.split(',').map(function (n) { return parseInt(n, 10); });
+      d.open = months.indexOf(curMonth) !== -1;
+    });
+  } catch (e) {
+    /* leave whatever default-open state is already in the markup */
+  }
 })();
 </script>
 </body>
