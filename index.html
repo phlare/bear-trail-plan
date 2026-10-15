@@ -583,6 +583,22 @@
     flex: 1 1 260px;
   }
 
+  .notif-text a {
+    color: var(--focus);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 2px;
+  }
+  .notif-text a:hover, .notif-text a:focus-visible {
+    text-decoration-color: currentColor;
+  }
+  .notif-text a:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
   .links-panel {
     margin: 2rem 0 2.5rem;
     background: var(--paper-raised);
@@ -678,6 +694,10 @@
   <section class="notif-panel">
     <div class="notif-title">Notification Center</div>
     <ul class="notif-list">
+      <li class="notif-item">
+        <span class="notif-date">Oct 2026</span>
+        <span class="notif-text">Happy Fall, Bear families. Let's get a loose head count for the October campout. Please go RSVP one way or the other on the <a href="https://advancements.scouting.org/calendar/event/7029878" target="_blank" rel="noopener">Scoutbook event page</a>.</span>
+      </li>
       <li class="notif-item">
         <span class="notif-date">Sept 2026</span>
         <span class="notif-text">Welcome! This is a living document we can use to help organize our year. As schedules change and life happens, we'll update this plan so we can keep on task and get these badges earned.</span>
@@ -825,8 +845,8 @@
         <div class="month-content">
           <ul class="month-events">
         <li><span class="ev-date">Nov 12</span> Den meeting</li>
-        <li><span class="ev-date">Nov 14&ndash;15</span> Scouting for Food collection. Locations and sign-ups TBA</li>
-        <li><span class="ev-date">Nov 19</span> Pack Meeting</li>
+        <li><span class="ev-date">Nov 14&ndash;15</span> Scouting for Food collection, Albertsons storefront. Sign up for a volunteer time slot via GroupMe.</li>
+        <li><span class="ev-date">Nov 20</span> Pack Meeting (Uniform Inspection)</li>
         <li><span class="ev-date">Nov 21</span> Scouting for Food Donation Drop-off, 9&nbsp;am, Storehouse West</li>
         <li><span class="ev-date">TBA</span> 🥾 Make-up hike, backup for Bear Habitat, open to everyone</li>
       </ul>
@@ -1102,7 +1122,7 @@
     <p><strong>November make-up hike:</strong> date still to come. Open to everyone, and the backup way to finish Bear Habitat for anyone who misses the Fall Campout.</p>
     <p><strong>March, April, and May dates:</strong> Rocket Launch, Carnival, and Spring Campout &amp; Crossover are all on the pack's calendar; exact dates will be added here once they're set in Scoutbook.</p>
   </div>
-  <p class="rule-note">A couple of details differ from the printed flyer: the Zoo Meet-up is at 2&nbsp;pm (not 4&nbsp;pm) and the Fall Campout is at Ponderosa Campground near Bandelier (not Paliza). Both have been confirmed with pack leadership.</p>
+  <p class="rule-note">A couple of details differ from the printed flyer: the Zoo Meet-up is at 2&nbsp;pm (not 4&nbsp;pm), the Fall Campout is at Ponderosa Campground near Bandelier (not Paliza), and November's Pack Meeting is Nov&nbsp;20 (not Nov&nbsp;19). All three have been confirmed with pack leadership.</p>
 
   <footer>
     Built from the current Bear rank adventure requirements published by Scouting America. Checkbox progress is stored only in this browser, on this device, so it's just for your own tracking. It won't sync to Scoutbook or to the den leaders.
